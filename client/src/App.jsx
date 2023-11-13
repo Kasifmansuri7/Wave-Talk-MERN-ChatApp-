@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Homepage from "./Pages/Homepage";
 import Chatpage from "./Pages/Chatpage";
 import axios from "axios";
+import "./App.css";
 
 const router = createBrowserRouter([
   { path: "/", element: <Homepage /> },
@@ -10,7 +11,11 @@ const router = createBrowserRouter([
 axios.defaults.baseURL = "http://localhost:3000";
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <div className="App">
+      <RouterProvider router={router} />;
+    </div>
+  );
 }
 
 export default App;
