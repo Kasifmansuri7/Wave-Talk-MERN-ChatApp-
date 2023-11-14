@@ -14,7 +14,7 @@ const Chatpage = () => {
     fetchChats();
   }, []);
 
-  return <div>{chats?.kashif}</div>;
+  return <div>Chat Page</div>;
 };
 
 export default Chatpage;

@@ -2,23 +2,26 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
 const cors = require("cors");
-const connectDB = require("./models/connectDB");
+const connectDB = require("./config/connectDB");
+const colors = require("colors");
+const userRoute = require("./routes/userRoutes");
+const { errorHandler, notFound } = require("./middleware/errorMiddleware");
+//DB connection
+(async () => {
+  await connectDB(process.env.MONGO_URL);
+  app.listen(port, () => {
+    console.log(`Backend started on ${port}!!`.yellow);
+  });
+})();
 
 app.use(express.json());
 app.use(cors());
+
+// app.use(notFound);
+// app.use(errorHandler);
 
 app.get("/test", (req, res) => {
   res.send("Backend is working absolutely fine....");
 });
 
-app.get("/chats", (req, res) => {
-  res.json({ kashif: "hey message" });
-});
-
-//DB connection
-(async () => {
-  await connectDB(process.env.MONGO_URL);
-  app.listen(port, () => {
-    console.log(`Backend started on ${port}!!`);
-  });
-})();
+app.use("/api/user", userRoute);

@@ -7,15 +7,57 @@ import {
   InputGroup,
   InputRightElement,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+  const navigate = useNavigate();
 
-  const submitHandler = () => {};
+  const submitHandler = async () => {
+    try {
+      const config = {
+        header: {
+          "Content-type": "application/json",
+        },
+      };
+
+      const { data } = await axios.post(
+        "/api/user/login",
+        { email, password },
+        config
+      );
+      localStorage.setItem("userInfo", JSON.stringify(data));
+
+      toast({
+        title: "Login Success!",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      navigate("/chats");
+    } catch (err) {
+      console.log("Login err", err);
+      toast({
+        title: "Login failed.",
+        description: "Login failed please try again.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <VStack spacing="5px">
       <FormControl isRequired>
@@ -43,14 +85,19 @@ const Login = () => {
         </InputGroup>
       </FormControl>
 
-      <Button colorScheme="blue" width="100%" mt="15px" onClick={submitHandler}>
+      <Button
+        colorScheme="blue"
+        width="100%"
+        mt="15px"
+        onClick={submitHandler}
+        isLoading={loading}
+      >
         Login
       </Button>
 
       <Button
         colorScheme="red"
         width="100%"
-        mt="15px"
         onClick={() => {
           setEmail("guest@example.com");
           setPassword("123456");
