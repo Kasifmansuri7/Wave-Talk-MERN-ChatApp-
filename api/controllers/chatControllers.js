@@ -4,7 +4,6 @@ const User = require("../models/userModel");
 
 const accessChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
-  console.log("userId: ", userId);
 
   if (!userId) {
     return res.status(404).json({ message: "userid param not found" });
@@ -50,8 +49,7 @@ const accessChat = asyncHandler(async (req, res) => {
 
 const fetchChats = asyncHandler(async (req, res) => {
   try {
-
-    Chat.find
+    Chat.find;
   } catch (err) {
     console.log("fetch chats ", err);
   }
