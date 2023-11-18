@@ -81,7 +81,6 @@ const createGroupChat = asyncHandler(async (req, res) => {
   }
 
   users.push(req.user._id);
-  console.log("users: ", users);
 
   try {
     const groupChat = await Chat.create({
@@ -90,13 +89,10 @@ const createGroupChat = asyncHandler(async (req, res) => {
       isGroupChat: true,
       groupAdmin: req.user._id,
     });
-    console.log("groupChat: ", groupChat);
 
     const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
       .populate("users", "-password")
       .populate("groupAdmin", "-password");
-
-    console.log("fullGroupChat: ", fullGroupChat);
 
     return res.status(201).json(fullGroupChat);
   } catch (err) {
@@ -197,7 +193,6 @@ const removeFromGroup = asyncHandler(async (req, res) => {
     return res.status(500).send("remove from group err", err);
   }
 });
-
 
 module.exports = {
   accessChat,
