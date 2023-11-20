@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ChatContextProvider from "./Context/ChatProvider";
 import Homepage from "./Pages/Homepage";
 import Chatpage from "./Pages/Chatpage";
 import axios from "axios";
@@ -8,13 +9,16 @@ const router = createBrowserRouter([
   { path: "/", element: <Homepage /> },
   { path: "/chats", element: <Chatpage /> },
 ]);
+
 axios.defaults.baseURL = "http://localhost:3000";
 
 function App() {
   return (
-    <div className="App">
-      <RouterProvider router={router} />;
-    </div>
+    <ChatContextProvider>
+      <div className="App">
+        <RouterProvider router={router} />;
+      </div>
+    </ChatContextProvider>
   );
 }
 

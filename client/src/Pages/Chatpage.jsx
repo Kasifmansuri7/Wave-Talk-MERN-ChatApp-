@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useContext } from "react";
+import { ChatContext } from "../Context/ChatProvider";
 
 const Chatpage = () => {
-  const [chats, setChats] = useState(null);
+  const navigate = useNavigate();
+  const { user } = useContext(ChatContext);
 
-  const fetchChats = async () => {
-    const { data } = await axios.get("/chats");
-    console.log("data: ", data.kashif);
 
-    setChats(data);
-  };
+  
   useEffect(() => {
-    fetchChats();
+    console.log("user: ", user);
+
+    if (!user) {
+      navigate("/");
+    }
   }, []);
 
   return <div>Chat Page</div>;
