@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import {
   Container,
   Center,
@@ -13,16 +13,19 @@ import {
 import Login from "../Components/Login";
 import Signup from "../Components/Signup";
 import { useNavigate } from "react-router-dom";
+import { ChatContext } from "../Context/ChatProvider";
 
 function Homepage() {
   const navigate = useNavigate();
+  const { user, setUser } = useContext(ChatContext);
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (userInfo) {
+      setUser(userInfo);
       navigate("/chats");
     }
-  }, [navigate]);
+  }, []);
 
   return (
     <Container maxW="xl" centerContent>

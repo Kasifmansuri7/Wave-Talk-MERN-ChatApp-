@@ -7,6 +7,7 @@ const colors = require("colors");
 const userRoute = require("./routes/userRoutes");
 const chatRoute = require("./routes/chatRoutes");
 const { errorHandler, notFound } = require("./middleware/errorMiddleware");
+
 //DB connection
 (async () => {
   await connectDB(process.env.MONGO_URL);
