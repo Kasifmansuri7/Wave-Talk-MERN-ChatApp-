@@ -11,6 +11,7 @@ const router = createBrowserRouter([
 ]);
 
 axios.defaults.baseURL = "http://localhost:3000";
+console.log;
 
 function App() {
   return (
