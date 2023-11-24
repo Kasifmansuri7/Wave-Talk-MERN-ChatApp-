@@ -1,10 +1,10 @@
 import React from "react";
 import { Box, Avatar, Text } from "@chakra-ui/react";
 
-const UserListItem = ({ user, handleChat }) => {
+const UserListItem = ({ user, handleFunction }) => {
   return (
     <Box
-      onClick={handleChat}
+      onClick={handleFunction}
       cursor="pointer"
       bg="#E8E8E8"
       _hover={{
@@ -12,7 +12,7 @@ const UserListItem = ({ user, handleChat }) => {
         color: "white",
       }}
       w="100%"
-      d="flex"
+      display="flex"
       alignItems="center"
       color="black"
       px={3}

@@ -4,11 +4,14 @@ const generateToken = require("../config/generateToken");
 
 //Register a new user
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, pic } = req.body;
+  let { name, email, password, pic } = req.body;
 
   if (!name || !email || !password) {
     return res.status(400).json({ message: "field missing" });
   }
+
+  name = name.trim();
+  email = email.trim();
 
   const userExists = await User.findOne({ email });
 
@@ -67,7 +70,9 @@ const allUsers = asyncHandler(async (req, res) => {
       }
     : {};
 
-  const users = await User.find(keywords).find({ _id: { $ne: req.user._id } });
+  const users = await User.find(keywords)
+    .find({ _id: { $ne: req.user._id } })
+    .select("-password");
   res.send(users);
 });
 
