@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   VStack,
   FormControl,
@@ -12,6 +12,7 @@ import {
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ChatContext } from "../Context/ChatProvider";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,6 +21,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const navigate = useNavigate();
+  const { setUser } = useContext(ChatContext);
 
   const submitHandler = async () => {
     try {
@@ -34,6 +36,7 @@ const Login = () => {
         { email, password },
         config
       );
+      setUser(data.data);
       localStorage.setItem("userInfo", JSON.stringify(data));
 
       toast({

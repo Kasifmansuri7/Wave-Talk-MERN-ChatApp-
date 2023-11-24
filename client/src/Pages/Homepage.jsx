@@ -22,7 +22,7 @@ function Homepage() {
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (userInfo) {
-      setUser(userInfo);
+      setUser(userInfo.data);
       navigate("/chats");
     }
   }, []);

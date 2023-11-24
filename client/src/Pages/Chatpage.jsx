@@ -10,7 +10,6 @@ const Chatpage = () => {
   const { user } = useContext(ChatContext);
 
   useEffect(() => {
-    console.log("user: ", user);
     if (!user) {
       navigate("/");
     }

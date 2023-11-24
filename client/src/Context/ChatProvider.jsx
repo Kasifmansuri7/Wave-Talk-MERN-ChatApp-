@@ -3,17 +3,23 @@ import { createContext, useEffect, useState } from "react";
 export const ChatContext = createContext({});
 
 const ChatContextProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
+  const [selectedChat, setSelectedChat] = useState(null);
+  const [chats, setChats] = useState([]);
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    console.log("userInfo: ", userInfo);
+    const { data } = userInfo;
 
-    setUser(userInfo);
+    if (data) {
+      setUser(data);
+    }
   }, []);
 
   return (
-    <ChatContext.Provider value={{ user, setUser }}>
+    <ChatContext.Provider
+      value={{ user, setUser, selectedChat, setSelectedChat, chats, setChats }}
+    >
       {children}
     </ChatContext.Provider>
   );
