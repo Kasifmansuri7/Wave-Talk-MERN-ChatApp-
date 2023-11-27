@@ -45,7 +45,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               </>
             )}
           </Text>
-
           <Box
             display="flex"
             flexDir="column"

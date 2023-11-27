@@ -6,6 +6,7 @@ const connectDB = require("./config/connectDB");
 const colors = require("colors");
 const userRoute = require("./routes/userRoutes");
 const chatRoute = require("./routes/chatRoutes");
+const messageRoute = require("./routes/messageRoute");
 const { errorHandler, notFound } = require("./middleware/errorMiddleware");
 
 //DB connection
@@ -25,6 +26,7 @@ app.get("/test", (req, res) => {
 
 app.use("/api/user", userRoute);
 app.use("/api/chat", chatRoute);
+app.use("/api/message", messageRoute);
 
 //Error handling middleware
 app.use(notFound);
