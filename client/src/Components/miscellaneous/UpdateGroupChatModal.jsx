@@ -20,7 +20,7 @@ import UserBadgeItem from "../UserAvatar/UserBadgeItem";
 import UserListItem from "../UserAvatar/UserListItem";
 import axios from "axios";
 
-const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
+const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
   const { user, selectedChat, setSelectedChat } = useContext(ChatContext);
   const [groupChatName, setGroupChatName] = useState("");
   const [search, setSearch] = useState();
@@ -100,6 +100,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
         ? setSelectedChat()
         : setSelectedChat(data);
 
+      fetchMessages();
       setFetchAgain((prev) => !prev);
     } catch (error) {
       console.log("Remove member in group error:", error);

@@ -6,6 +6,7 @@ const Chat = require("../models/chatModel");
 
 const sendMessage = asyncHandler(async (req, res) => {
   const { content, chatId } = req.body;
+  console.log("content: ", content);
 
   if (!content || !chatId) {
     return res.status(400).json({ message: "field missing" });

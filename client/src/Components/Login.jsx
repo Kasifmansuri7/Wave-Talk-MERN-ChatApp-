@@ -51,11 +51,11 @@ const Login = () => {
       console.log("Login err", err);
       toast({
         title: "Login failed.",
-        description: "Login failed please try again.",
+        description: err.response.data.message,
         status: "error",
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: "top",
       });
     } finally {
       setLoading(false);
