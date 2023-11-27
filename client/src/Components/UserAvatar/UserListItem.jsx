@@ -17,7 +17,7 @@ const UserListItem = ({ user, handleFunction }) => {
       color="black"
       px={3}
       py={2}
-      mb={2}
+      my={1}
       borderRadius="lg"
     >
       <Avatar
@@ -25,10 +25,10 @@ const UserListItem = ({ user, handleFunction }) => {
         size="sm"
         cursor="pointer"
         name={user.name}
-        src={user.avatar}
+        src={user.pic}
       />
       <Box>
-        <Text>{user.name}</Text>
+        <Text textAlign="left">{user.name}</Text>
         <Text fontSize="xs">
           <b>Email : </b>
           {user.email}

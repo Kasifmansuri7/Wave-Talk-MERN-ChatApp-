@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Chat = require("../models/chatModel");
 const User = require("../models/userModel");
 
+//Access a chat
 const accessChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
 
@@ -21,7 +22,7 @@ const accessChat = asyncHandler(async (req, res) => {
 
   isChat = await User.populate(isChat, {
     path: "letestMessage.sender",
-    select: "name avatar email",
+    select: "name pic email",
   });
 
   if (isChat.length > 0) {
@@ -47,6 +48,7 @@ const accessChat = asyncHandler(async (req, res) => {
   }
 });
 
+//Fetch all chats
 const fetchChats = asyncHandler(async (req, res) => {
   try {
     var userChat = await Chat.find({
@@ -59,7 +61,7 @@ const fetchChats = asyncHandler(async (req, res) => {
 
     userChat = await User.populate(userChat, {
       path: "letestMessage.sender",
-      select: "name avatar email",
+      select: "name pic email",
     });
     res.send(userChat);
   } catch (err) {
@@ -67,7 +69,7 @@ const fetchChats = asyncHandler(async (req, res) => {
   }
 });
 
-//create group chat
+//Create group chat
 const createGroupChat = asyncHandler(async (req, res) => {
   let { users, name } = req.body;
   if (!users || !name) {
@@ -123,7 +125,6 @@ const renameGroup = asyncHandler(async (req, res) => {
 });
 
 //add member to group
-
 const addToGroup = asyncHandler(async (req, res) => {
   const { chatId, newMemberId } = req.body;
 
@@ -165,17 +166,8 @@ const removeFromGroup = asyncHandler(async (req, res) => {
   const { chatId, removeMemberId } = req.body;
 
   try {
-    const checkGroupAdmin = await Chat.findOne({
-      _id: chatId,
-      groupAdmin: removeMemberId,
-    });
-
-    if (checkGroupAdmin) {
-      return res.status(400).send("Admin can't exit the group");
-    }
-
     //remove member
-    const updatedGroup = await Chat.findOneAndUpdate(
+    let updatedGroup = await Chat.findOneAndUpdate(
       { _id: chatId },
       { $pull: { users: removeMemberId } },
       { new: true }
@@ -185,6 +177,17 @@ const removeFromGroup = asyncHandler(async (req, res) => {
 
     if (!updatedGroup) {
       return res.status(500).send("something went wrong");
+    }
+
+    // if group admin exits, make first user as group admin
+    if (
+      updatedGroup.groupAdmin._id == removeMemberId &&
+      updatedGroup.users.length > 0
+    ) {
+      updatedGroup = await Chat.findOneAndUpdate(
+        { _id: chatId },
+        { $set: { groupAdmin: updatedGroup.users[0]._id } }
+      );
     }
 
     return res.status(200).send(updatedGroup);

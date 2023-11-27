@@ -18,7 +18,7 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirPassword, setConfirmPassword] = useState("");
-  const [avatar, setAvatar] = useState("");
+  const [pic, setPic] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(false);
   const [showConPass, setShowConPass] = useState(false);
@@ -51,7 +51,7 @@ const Signup = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          setAvatar(data.url.toString());
+          setPic(data.url.toString());
           setLoading(false);
         })
         .catch((err) => {
@@ -107,7 +107,7 @@ const Signup = () => {
 
       const { data } = await axios.post(
         "/api/user/register",
-        { name, email, password, avatar },
+        { name, email, password, pic },
         config
       );
 

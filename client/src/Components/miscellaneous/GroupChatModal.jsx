@@ -29,7 +29,7 @@ const GroupChatModal = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
-  const { user, chats, setChats } = useContext(ChatContext);
+  const { user, chats, setChats, selectedChat } = useContext(ChatContext);
 
   useEffect(() => {
     if (!search) {
@@ -78,7 +78,6 @@ const GroupChatModal = ({ children }) => {
       return;
     }
 
-    console.log("selectedUser: ", selectedUser);
     if (selectedUser.length <= 1) {
       toast({
         title: "Please select minimum 2 members!!",

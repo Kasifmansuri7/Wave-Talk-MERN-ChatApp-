@@ -81,7 +81,11 @@ const Login = () => {
             value={password}
           />
           <InputRightElement>
-            <Button h="1.75em" onClick={(e) => setShowPass((prev) => !prev)}>
+            <Button
+              h="1.75em"
+              onClick={(e) => setShowPass((prev) => !prev)}
+              mr={1}
+            >
               {showPass ? <ViewOffIcon /> : <ViewIcon />}
             </Button>
           </InputRightElement>
