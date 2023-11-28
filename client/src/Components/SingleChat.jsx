@@ -154,7 +154,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       }
     }
   };
-  const typyingHandler = (e) => {
+  const typingHandler = (e) => {
     setNewMessage(e.target.value);
     if (!socketConnected) return;
 
@@ -165,7 +165,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
     //debouncing function to stop typing if user is not typing
     let lastTypingTime = Date.now();
-    let timeLength = 3000;
+    let timeLength = 1500;
 
     setTimeout(() => {
       let timeNow = Date.now();
@@ -256,7 +256,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 variant="filled"
                 bg="#E0E0E0"
                 placeholder="Enter a message..."
-                onChange={typyingHandler}
+                onChange={typingHandler}
                 value={newMessage}
               />
             </FormControl>
