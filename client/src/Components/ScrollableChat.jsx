@@ -11,31 +11,32 @@ import { ChatContext } from "../Context/ChatProvider";
 import { Tooltip, Avatar } from "@chakra-ui/react";
 
 const ScrollableChat = ({ messages }) => {
-  console.log("messages: ", messages);
   const { user } = useContext(ChatContext);
 
   return (
     <ScrollableFeed>
       {messages &&
         messages.map((msg, index) => (
-          <div style={{ display: "flex" }} key={msg._id}>
+          <div style={{ display: "flex", alignItems: "center" }} key={msg._id}>
             {isSameSender(messages, msg, index, user._id) ||
-              (isLastMessage(messages, index, user._id) && (
-                <Tooltip
-                  label={msg.sender.name}
-                  placement="bottom-start"
-                  hasArrow
-                >
-                  <Avatar
-                    mt="7px"
-                    mr={1}
-                    size="sm"
-                    cursor="pointer"
-                    name={msg.sender.name}
-                    src={msg.sender.pic}
-                  />
-                </Tooltip>
-              ))}
+            isLastMessage(messages, index, user._id) ? (
+              <Tooltip
+                label={msg.sender.name}
+                placement="bottom-start"
+                hasArrow
+              >
+                <Avatar
+                  mt="7px"
+                  mr={1}
+                  size="sm"
+                  cursor="pointer"
+                  name={msg.sender.name}
+                  src={msg.sender.pic}
+                />
+              </Tooltip>
+            ) : (
+              <></>
+            )}
             <span
               style={{
                 backgroundColor: `${

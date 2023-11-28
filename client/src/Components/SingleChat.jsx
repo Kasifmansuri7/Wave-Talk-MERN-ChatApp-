@@ -33,7 +33,8 @@ const defaultOptions = {
 };
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
-  const { user, selectedChat, setSelectedChat } = useContext(ChatContext);
+  const { user, selectedChat, setSelectedChat, notification, setNotification } =
+    useContext(ChatContext);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
@@ -105,6 +106,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         selectedChatCompare._id !== newMessageReceived.chat._id
       ) {
         //give notification
+        if (!notification.includes(newMessageReceived)) {
+          setNotification([newMessageReceived, ...notification]);
+          setFetchAgain((prev) => !prev);
+        }
       } else {
         setMessages([...messages, newMessageReceived]);
       }
@@ -159,7 +164,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
 
     //debouncing function to stop typing if user is not typing
-
     let lastTypingTime = Date.now();
     let timeLength = 3000;
 

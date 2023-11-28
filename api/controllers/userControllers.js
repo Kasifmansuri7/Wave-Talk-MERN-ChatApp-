@@ -59,7 +59,7 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-//Get all users
+//Get all users for search in chat
 const allUsers = asyncHandler(async (req, res) => {
   const keywords = req.query.search
     ? {

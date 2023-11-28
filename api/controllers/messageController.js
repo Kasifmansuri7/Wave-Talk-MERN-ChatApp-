@@ -4,6 +4,7 @@ const Message = require("../models/messageModel");
 const User = require("../models/userModel");
 const Chat = require("../models/chatModel");
 
+//Create a message
 const sendMessage = asyncHandler(async (req, res) => {
   const { content, chatId } = req.body;
 
@@ -26,11 +27,12 @@ const sendMessage = asyncHandler(async (req, res) => {
     select: "name pic email",
   });
 
+  //updating the letestmessage field of that chat
   await Chat.findByIdAndUpdate(req.body.chatId, { letestMessage: message });
-
   res.json(message);
 });
 
+//Fetch message of a particular chat
 const fetchMessages = asyncHandler(async (req, res) => {
   const chatId = req.params.chatId;
 

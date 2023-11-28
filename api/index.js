@@ -14,6 +14,7 @@ const { errorHandler, notFound } = require("./middleware/errorMiddleware");
   await connectDB(process.env.MONGO_URL);
 })();
 
+//middlewares
 app.use(express.json());
 app.use(cors());
 
@@ -25,6 +26,7 @@ const server = app.listen(port, () => {
   console.log(`Backend started on ${port}!!`.yellow);
 });
 
+//Socket configurarions
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
@@ -33,6 +35,8 @@ const io = require("socket.io")(server, {
 });
 
 io.on("connection", (socket) => {
+  console.log(socket.rooms);
+
   socket.on("setup", (userData) => {
     console.log("user connected");
     socket.join(userData._id);
@@ -71,9 +75,6 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("user disconnected");
-
-    // const rooms = Object.keys(socket.rooms);
-    // console.log("rooms: ", rooms);
   });
 
   // socket.off("setup", () => {
@@ -82,6 +83,7 @@ io.on("connection", (socket) => {
   // });
 });
 
+//routes
 app.use("/api/user", userRoute);
 app.use("/api/chat", chatRoute);
 app.use("/api/message", messageRoute);
