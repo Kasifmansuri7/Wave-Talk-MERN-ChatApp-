@@ -11,7 +11,9 @@ import { ChatContext } from "../Context/ChatProvider";
 import { Tooltip, Avatar } from "@chakra-ui/react";
 
 const ScrollableChat = ({ messages }) => {
+  console.log("messages: ", messages);
   const { user } = useContext(ChatContext);
+
   return (
     <ScrollableFeed>
       {messages &&

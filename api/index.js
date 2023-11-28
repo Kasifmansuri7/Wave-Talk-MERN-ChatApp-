@@ -12,9 +12,6 @@ const { errorHandler, notFound } = require("./middleware/errorMiddleware");
 //DB connection
 (async () => {
   await connectDB(process.env.MONGO_URL);
-  app.listen(port, () => {
-    console.log(`Backend started on ${port}!!`.yellow);
-  });
 })();
 
 app.use(express.json());
@@ -22,6 +19,67 @@ app.use(cors());
 
 app.get("/test", (req, res) => {
   res.send("Backend is working absolutely fine....");
+});
+
+const server = app.listen(port, () => {
+  console.log(`Backend started on ${port}!!`.yellow);
+});
+
+const io = require("socket.io")(server, {
+  pingTimeout: 60000,
+  cors: {
+    origin: "http://localhost:5173",
+  },
+});
+
+io.on("connection", (socket) => {
+  socket.on("setup", (userData) => {
+    console.log("user connected");
+    socket.join(userData._id);
+    socket.emit("connected");
+  });
+
+  socket.on("join chat", (room) => {
+    socket.join(room);
+    console.log("User joined room: ", room);
+  });
+
+  socket.on("typing", (room) => {
+    socket.in(room).emit("typing");
+  });
+
+  socket.on("stop typing", (room) => {
+    socket.in(room).emit("stop typing");
+  });
+
+  socket.on("new message", (newMessageReceived) => {
+    var chat = newMessageReceived.chat;
+
+    if (!chat.users) {
+      return console.log("chat.users not defined");
+    }
+
+    chat.users.forEach((user) => {
+      //we dont want to send message to ourself
+      if (user._id == newMessageReceived.sender._id) {
+        return;
+      }
+
+      socket.in(user._id).emit("message received", newMessageReceived);
+    });
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+
+    // const rooms = Object.keys(socket.rooms);
+    // console.log("rooms: ", rooms);
+  });
+
+  // socket.off("setup", () => {
+  //   console.log("user disconnected!!");
+  //   socket.leave(roomId);
+  // });
 });
 
 app.use("/api/user", userRoute);
