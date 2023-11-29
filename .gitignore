@@ -8,7 +8,6 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # Environment variables file
-client/
 
 node_modules
 dist
