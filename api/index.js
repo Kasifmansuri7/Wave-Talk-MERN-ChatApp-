@@ -4,6 +4,7 @@ const PORT = process.env.PORT || 3000;
 const cors = require("cors");
 const connectDB = require("./config/connectDB");
 const colors = require("colors");
+const path = require("path");
 const userRoute = require("./routes/userRoutes");
 const chatRoute = require("./routes/chatRoutes");
 const messageRoute = require("./routes/messageRoute");
@@ -18,9 +19,22 @@ const { errorHandler, notFound } = require("./middleware/errorMiddleware");
 app.use(express.json());
 app.use(cors());
 
-app.get("/test", (req, res) => {
-  res.send("Backend is working absolutely fine....");
-});
+//----------------------------Deployment--------------------------
+
+const __dirname1 = path.resolve(__dirname, "..");
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname1, "/client/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname1, "client", "dist", "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("Backend is working absolutely fine....");
+  });
+}
+//----------------------------Deployment----------------------------
 
 const server = app.listen(PORT, () => {
   console.log(`Backend started on ${PORT}!!`.yellow);
@@ -30,7 +44,7 @@ const server = app.listen(PORT, () => {
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: [process.env.FRONTEND_URI, "http://localhost:5173"],
+    origin: "http://localhost:5173",
   },
 });
 

@@ -31,6 +31,7 @@ import axios from "axios";
 import { getSender } from "../../Config/ChatLogics";
 import NotificationBadge from "react-notification-badge";
 import { Effect } from "react-notification-badge";
+import { Link } from "react-router-dom";
 
 const SideDrawer = () => {
   // const [search, setSearch] = useState("");
@@ -142,7 +143,7 @@ const SideDrawer = () => {
         </Tooltip>
 
         <Text fontSize="2xl" fontFamily="work sans" fontWeight="600">
-          WaveTalk
+          <Link to={"/"}>Wave Talk</Link>
         </Text>
         <div>
           <Menu>
