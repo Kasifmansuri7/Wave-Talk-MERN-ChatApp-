@@ -10,8 +10,8 @@ const router = createBrowserRouter([
   { path: "/chats", element: <Chatpage /> },
 ]);
 
-// axios.defaults.baseURL = "https://wave-talk.onrender.com";
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = "https://wave-talk.onrender.com";
+// axios.defaults.baseURL = "http://localhost:3000";
 
 function App() {
   return (
