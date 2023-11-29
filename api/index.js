@@ -35,19 +35,16 @@ const io = require("socket.io")(server, {
 });
 
 io.on("connection", (socket) => {
-  let user;
-  socket.on("setup", (userData) => {
-    user = userData;
+  // console.log(socket.rooms);
 
+  socket.on("setup", (userData) => {
     // console.log("user connected");
     socket.join(userData._id);
-    // console.log(socket.rooms);
     socket.emit("connected");
   });
 
   socket.on("join chat", (room) => {
     socket.join(room);
-    // console.log(socket.rooms);
     // console.log("User joined room: ", room);
   });
 
@@ -76,14 +73,14 @@ io.on("connection", (socket) => {
     });
   });
 
-  socket.off("setup", () => {
-    // console.log("user disconnected!!");
-    socket.leave(user._id);
+  socket.on("disconnect", () => {
+    // console.log("user disconnected");
   });
 
-  socket.on("disconnect", () => {
-    console.log("user disconnected!!");
-  });
+  // socket.off("setup", () => {
+  //   console.log("user disconnected!!");
+  //   socket.leave(roomId);
+  // });
 });
 
 //routes
