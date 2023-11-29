@@ -99,11 +99,13 @@ const GroupChatModal = ({ children }) => {
         "/api/chat/group",
         {
           name: groupChatName,
-          users: JSON.stringify(selectedUser.map((u) => u._id)),
+          users: JSON.stringify(
+            selectedUser.length && selectedUser.map((u) => u._id)
+          ),
         },
         config
       );
-      setChats((prev) => [data, ...prev]);
+      setChats([data, ...chats]);
       onClose();
       toast({
         title: "New Group Created!",
