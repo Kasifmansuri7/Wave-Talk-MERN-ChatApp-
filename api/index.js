@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 const cors = require("cors");
 const connectDB = require("./config/connectDB");
 const colors = require("colors");
@@ -22,8 +22,8 @@ app.get("/test", (req, res) => {
   res.send("Backend is working absolutely fine....");
 });
 
-const server = app.listen(port, () => {
-  console.log(`Backend started on ${port}!!`.yellow);
+const server = app.listen(PORT, () => {
+  console.log(`Backend started on ${PORT}!!`.yellow);
 });
 
 //Socket configurarions
@@ -35,17 +35,20 @@ const io = require("socket.io")(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log(socket.rooms);
-
+  let user;
   socket.on("setup", (userData) => {
-    console.log("user connected");
+    user = userData;
+
+    // console.log("user connected");
     socket.join(userData._id);
+    // console.log(socket.rooms);
     socket.emit("connected");
   });
 
   socket.on("join chat", (room) => {
     socket.join(room);
-    console.log("User joined room: ", room);
+    // console.log(socket.rooms);
+    // console.log("User joined room: ", room);
   });
 
   socket.on("typing", (room) => {
@@ -73,14 +76,14 @@ io.on("connection", (socket) => {
     });
   });
 
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
+  socket.off("setup", () => {
+    // console.log("user disconnected!!");
+    socket.leave(user._id);
   });
 
-  // socket.off("setup", () => {
-  //   console.log("user disconnected!!");
-  //   socket.leave(roomId);
-  // });
+  socket.on("disconnect", () => {
+    console.log("user disconnected!!");
+  });
 });
 
 //routes

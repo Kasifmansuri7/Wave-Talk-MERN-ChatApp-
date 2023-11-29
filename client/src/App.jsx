@@ -10,7 +10,7 @@ const router = createBrowserRouter([
   { path: "/chats", element: <Chatpage /> },
 ]);
 
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 
 function App() {
   return (
