@@ -10,7 +10,7 @@ const router = createBrowserRouter([
   { path: "/chats", element: <Chatpage /> },
 ]);
 
-axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
+axios.defaults.baseURL = "https://wave-talk.onrender.com";
 
 function App() {
   return (

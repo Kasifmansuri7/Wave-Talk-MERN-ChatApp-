@@ -42,13 +42,10 @@ const Signup = () => {
     if (pic.type === "image/jpeg" || pic.type === "image/png") {
       const data = new FormData();
       data.append("file", pic);
-      data.append(
-        "upload_preset",
-        import.meta.env.VITE_Cloudinary_Upload_Preset
-      );
-      data.append("cloud_name", import.meta.env.VITE_Cloudinary_CloudName);
+      data.append("upload_preset", "ChatApp");
+      data.append("cloud_name", "dkdcxi4ac");
 
-      fetch(import.meta.env.VITE_Cloudinary_API, {
+      fetch("https://api.cloudinary.com/v1_1/dkdcxi4ac/image/upload", {
         method: "post",
         body: data,
       })
