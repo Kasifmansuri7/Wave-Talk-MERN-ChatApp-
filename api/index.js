@@ -12,7 +12,7 @@ const { errorHandler, notFound } = require("./middleware/errorMiddleware");
 
 //DB connection
 (async () => {
-  await connectDB(process.env.MONGO_URL);
+  await connectDB(process.env.MONGO_URL+"/waveTalk");
 })();
 
 //middlewares
