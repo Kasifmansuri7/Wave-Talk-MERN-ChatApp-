@@ -3,7 +3,6 @@ import { Box } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 
 const UserBadgeItem = ({ user, handleFunction, groupAdmin = false }) => {
-  console.log("groupAdmin: ", groupAdmin);
   return (
     <Box
       px={2}

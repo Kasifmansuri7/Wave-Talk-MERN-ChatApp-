@@ -5,6 +5,7 @@ const generateToken = require("../config/generateToken");
 //Register a new user
 const registerUser = asyncHandler(async (req, res) => {
   let { name, email, password, pic } = req.body;
+  const data = { name, email, password };
 
   if (!name || !email || !password) {
     return res.status(400).json({ message: "field missing" });
@@ -13,13 +14,17 @@ const registerUser = asyncHandler(async (req, res) => {
   name = name.trim();
   email = email.trim();
 
+  if (req.body.pic) {
+    data.pic = req.body.pic;
+  }
+
   const userExists = await User.findOne({ email });
 
   if (userExists) {
     return res.status(400).json({ message: "user already exists" });
   }
 
-  const user = await User.create({ name, email, password, pic });
+  const user = await User.create(data);
 
   if (user) {
     return res.status(201).json({

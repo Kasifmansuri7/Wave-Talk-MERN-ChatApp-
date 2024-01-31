@@ -13,8 +13,13 @@ const protect = asyncHandler(async (req, res, next) => {
 
       const decoded = jwt.verify(token, process.env.JWT_SEC);
 
-      req.user = await User.findOne({ _id: decoded.id }, { password: 0 });
+      const user = await User.findOne({ _id: decoded.id }, { password: 0 });
 
+      if (user) {
+        req.user = user;
+      } else {
+        throw new Error("Not authorized, no token");
+      }
       next();
     } catch (err) {
       console.log("auth middleware err", err);
